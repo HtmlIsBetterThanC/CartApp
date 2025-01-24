@@ -16,13 +16,14 @@ interface ProductProps {
   onFavouritePress: (product: UiProduct) => void;
   onCategoryPress: (category: UiCategory) => void;
   onRatingPress: () => void;
+  onFilterClear: () => void;
   containerStyle?: StyleProp<ViewStyle>;
 }
 
 const Products = (props: ProductProps) => {
   const theme = useTheme();
   const [selectedCategory, setSelectedCategory] = useState<UiCategory>();
-  const [isRatingAscending, setRatingAscending] = useState(true);
+  const [isRatingAscending, setRatingAscending] = useState<boolean>();
   const [isDialogVisible, setDialogVisible] = useState(false);
 
   const onRatingPress = useCallback(() => {
@@ -42,6 +43,12 @@ const Products = (props: ProductProps) => {
     [props.onCategoryPress, selectedCategory],
   );
 
+  const onFilterClear = useCallback(() => {
+    setRatingAscending(undefined);
+    setSelectedCategory(undefined);
+    props.onFilterClear();
+  }, [props.onFilterClear]);
+
   return (
     <Surface style={[styles.container, props.containerStyle]}>
       <FilterButtons
@@ -50,6 +57,7 @@ const Products = (props: ProductProps) => {
         isRatingAscending={isRatingAscending}
         onCategoryPress={showDialog}
         onRatingPress={onRatingPress}
+        onClear={onFilterClear}
       />
       <ProductList
         theme={theme}

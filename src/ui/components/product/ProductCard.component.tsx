@@ -1,9 +1,10 @@
 import { StyleProp, ViewStyle } from 'react-native';
 import UiProduct from '@/src/model/ui/UiProduct';
-import { Card, IconButton, MD3Theme, Text } from 'react-native-paper';
+import { Card, MD3Theme, Text } from 'react-native-paper';
 import { styles } from '@/src/ui/components/product/ProductCard.styles';
 import RatingStarsComponent from '@/src/ui/components/rating/RatingStars.component';
 import { useCallback } from 'react';
+import FavouriteButton from '@/src/ui/components/favourite/FavouriteButton.component';
 
 interface ProductCardProps {
   theme: MD3Theme;
@@ -20,10 +21,8 @@ const ProductCardComponent = (props: ProductCardProps) => {
 
   const favoriteButton = useCallback(() => {
     return (
-      <IconButton
-        icon={product.isFavourite ? 'heart' : 'heart-outline'}
-        iconColor={product.isFavourite ? 'red' : 'grey'}
-        size={32}
+      <FavouriteButton
+        isFavourite={product.isFavourite ?? false}
         onPress={props.onFavouritePress}
       />
     );

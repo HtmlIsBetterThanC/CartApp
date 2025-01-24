@@ -18,7 +18,7 @@ const FavouriteFAB = (props: FavouriteFABProps) => {
       elevation={4}
       size={'medium'}
       icon={props.isFavourite ? 'heart' : 'heart-outline'}
-      color={props.isFavourite ? props.theme.colors.onPrimaryContainer : 'grey'}
+      color={props.isFavourite ? 'red' : 'grey'}
       onPress={props.onPress}
     />
   );

@@ -1,4 +1,4 @@
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, TextStyle, View, ViewStyle } from 'react-native';
 import styles from './RatingStars.styles';
 import { Icon, Text } from 'react-native-paper';
 import UiRating from '@/src/model/ui/UiRating';
@@ -6,19 +6,20 @@ import UiRating from '@/src/model/ui/UiRating';
 interface RatingStarsProps {
   rating: UiRating;
   containerStyle?: StyleProp<ViewStyle>;
-  countColor?: string;
+  countStyle?: StyleProp<TextStyle>;
+  starsSize?: number;
 }
 
 const RatingStarsComponent = (props: RatingStarsProps) => {
-  const roundendRating = Math.round(props.rating.rate);
+  const roundedRating = Math.round(props.rating.rate);
 
   return (
     <View style={[styles.container, props.containerStyle]}>
-      {[...Array(roundendRating).keys()].map((rating) => (
-        <Icon key={rating} source="star" size={20} color={'yellow'} />
+      {[...Array(roundedRating).keys()].map((rating) => (
+        <Icon key={rating} source="star" size={props.starsSize ?? 20} color={'yellow'} />
       ))}
       <View style={[styles.spacer]} />
-      <Text style={[{ color: props.countColor }]}>{props.rating.count}</Text>
+      <Text style={[props.countStyle]}>{props.rating.count}</Text>
     </View>
   );
 };

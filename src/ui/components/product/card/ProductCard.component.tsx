@@ -1,7 +1,7 @@
 import { StyleProp, ViewStyle } from 'react-native';
 import UiProduct from '@/src/model/ui/UiProduct';
 import { Card, MD3Theme, Text } from 'react-native-paper';
-import { styles } from '@/src/ui/components/product/ProductCard.styles';
+import { styles } from '@/src/ui/components/product/card/ProductCard.styles';
 import RatingStarsComponent from '@/src/ui/components/rating/RatingStars.component';
 import { useCallback } from 'react';
 import FavouriteButton from '@/src/ui/components/favourite/FavouriteButton.component';
@@ -47,7 +47,10 @@ const ProductCardComponent = (props: ProductCardProps) => {
         <Text style={[{ color: themeColors.secondary }]} variant="bodyLarge">
           {`€${product.price}`}
         </Text>
-        <RatingStarsComponent rating={product.rating} countColor={themeColors.tertiary} />
+        <RatingStarsComponent
+          rating={product.rating}
+          countStyle={[{ color: themeColors.tertiary }]}
+        />
       </Card.Content>
     </Card>
   );

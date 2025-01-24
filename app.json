@@ -1,16 +1,15 @@
 {
   "expo": {
-    "name": "cart-app",
-    "slug": "cart-app",
+    "name": "CartApp",
+    "slug": "CartApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/logo.png",
+      "resizeMode": "contain"
     },
     "ios": {
       "supportsTablet": true,
@@ -18,13 +17,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.anonymous.cartapp"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }

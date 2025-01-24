@@ -1,5 +1,8 @@
 export default {
-  general: {},
+  general: {
+    cancel: 'Cancela',
+    confirm: 'Conferma',
+  },
   category: {
     electronics: 'elettronica',
     jewelery: 'gioielli',
@@ -21,5 +24,8 @@ export default {
   filter: {
     category: 'Filtra per categoria',
     rating: 'Ordina per voto recensione',
+  },
+  dialog: {
+    title: 'Seleziona categoria',
   },
 };

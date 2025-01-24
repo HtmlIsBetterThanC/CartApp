@@ -1,5 +1,8 @@
 export default {
-  general: {},
+  general: {
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+  },
   category: {
     electronics: 'electronics',
     jewelery: 'jewelery',
@@ -21,5 +24,8 @@ export default {
   filter: {
     category: 'Filter by category',
     rating: 'Order by rating',
+  },
+  dialog: {
+    title: 'Select category',
   },
 };

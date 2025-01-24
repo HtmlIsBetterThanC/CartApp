@@ -9,6 +9,14 @@ export class PreferencesManager {
     return favourites ? JSON.parse(favourites) : [];
   }
 
+  getFavourite(id: number): number | undefined {
+    return this.getFavourites()[id];
+  }
+
+  isFavourite(id: number): boolean {
+    return this.getFavourites().includes(id);
+  }
+
   toggleFavourites(productId: number): void {
     const favouritesArray = this.getFavourites();
     if (favouritesArray.includes(productId)) {

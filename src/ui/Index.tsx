@@ -16,6 +16,8 @@ import usePreferencesManager from '@/src/hooks/usePreferencesManager';
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import i18n from '@/src/localization/i18n';
+import { TopAppBar } from '@/src/ui/components/topAppBar/TopAppBar.component';
+import { useTheme } from 'react-native-paper';
 
 enum Routes {
   products = 'Products',
@@ -266,13 +268,25 @@ const Index = () => {
     );
   };
 
+  const paperTheme = useTheme();
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          header: ({ navigation, options }) => (
+            <TopAppBar
+              theme={paperTheme}
+              // @ts-ignore
+              title={options.headerTitle}
+              onBackPress={navigation.canGoBack() ? () => navigation.goBack() : undefined}
+            />
+          ),
+        }}>
         <Stack.Screen
           name={Routes.products}
           options={({ route }) => ({
             headerTitle: getHeaderTitle(route),
+            statusBarBackgroundColor: paperTheme.colors.primaryContainer,
           })}
           component={TabsNavigator}
         />

@@ -3,15 +3,19 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: 16,
     padding: 16,
   },
-
-  image: {
-    alignItems: 'center',
+  itemSeparator: {
+    height: 16,
   },
 
-  ratingCount: {
+  emptyList: {
     fontSize: 24,
+    paddingVertical: 16,
+    textAlign: 'center',
+  },
+
+  footer: {
+    height: 90,
   },
 });

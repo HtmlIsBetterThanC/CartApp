@@ -2,16 +2,13 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    gap: 16,
-    padding: 16,
-  },
-
-  image: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     alignItems: 'center',
+    padding: 8,
   },
-
-  ratingCount: {
-    fontSize: 24,
+  buttonLabel: {
+    fontSize: 14,
   },
 });

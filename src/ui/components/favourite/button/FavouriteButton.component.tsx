@@ -1,6 +1,6 @@
 import { StyleProp, ViewStyle } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import { styles } from '@/src/ui/components/favourite/FavouriteButton.styles';
+import { styles } from '@/src/ui/components/favourite/button/FavouriteButton.styles';
 
 interface FavouriteButtonProps {
   isFavourite: boolean;

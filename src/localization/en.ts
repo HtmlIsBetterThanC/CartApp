@@ -1,5 +1,7 @@
 export default {
-  general: {},
+  general: {
+    cancel: 'Cancel',
+  },
   category: {
     electronics: 'electronics',
     jewelery: 'jewelery',
@@ -14,5 +16,15 @@ export default {
       description: 'Description: %{description}',
       price: 'Price: %{price}',
     },
+    list: {
+      empty: 'No Products are available',
+    },
+  },
+  filter: {
+    category: 'Filter by category',
+    rating: 'Order by rating',
+  },
+  dialog: {
+    title: 'Select category',
   },
 };

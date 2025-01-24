@@ -4,7 +4,7 @@ import { Card, MD3Theme, Text } from 'react-native-paper';
 import { styles } from '@/src/ui/components/product/card/ProductCard.styles';
 import RatingStarsComponent from '@/src/ui/components/rating/RatingStars.component';
 import { useCallback } from 'react';
-import FavouriteButton from '@/src/ui/components/favourite/FavouriteButton.component';
+import FavouriteButton from '@/src/ui/components/favourite/button/FavouriteButton.component';
 
 interface ProductCardProps {
   theme: MD3Theme;

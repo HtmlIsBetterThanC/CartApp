@@ -8,6 +8,7 @@ interface TopAppBarProps {
   title: string;
   containerStyle?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
+  onBackPress?: () => void;
 }
 
 export const TopAppBar = (props: TopAppBarProps) => {
@@ -22,6 +23,7 @@ export const TopAppBar = (props: TopAppBarProps) => {
       theme={props.theme}
       mode={'center-aligned'}
       statusBarHeight={0}>
+      {props.onBackPress && <Appbar.BackAction onPress={props.onBackPress} />}
       <Appbar.Content
         style={[{ color: themeColors.onPrimaryContainer }, props.titleStyle]}
         theme={props.theme}

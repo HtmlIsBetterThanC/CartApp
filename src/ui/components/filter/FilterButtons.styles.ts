@@ -7,6 +7,6 @@ export const styles = StyleSheet.create({
     padding: 8,
   },
   buttonLabel: {
-    fontSize: 18,
+    fontSize: 16,
   },
 });

@@ -32,6 +32,7 @@ const ProductCardComponent = (props: ProductCardProps) => {
     <Card
       style={[styles.container, props.containerStyle]}
       theme={theme}
+      mode={'contained'}
       onPress={props.onProductPress}>
       <Card.Title
         titleStyle={{ color: themeColors.primary }}

@@ -1,4 +1,4 @@
-import { StyleProp, ViewStyle } from 'react-native';
+import { ScrollView, StyleProp, useWindowDimensions, ViewStyle } from 'react-native';
 import UiProduct from '@/src/model/ui/UiProduct';
 import { ProgressBar, Surface, useTheme } from 'react-native-paper';
 import { styles } from '@/src/ui/screens/product/Product.styles';
@@ -14,23 +14,24 @@ interface ProductProps {
 
 const Product = (props: ProductProps) => {
   const theme = useTheme();
+  const minHeight = useWindowDimensions().height - 150;
   const product = props.product;
 
   return (
-    <Surface theme={theme} style={[styles.container, props.containerStyle]}>
-      {props.isLoading || !props.product ? (
-        <ProgressBar indeterminate={true} />
-      ) : (
-        <>
-          <ProductDetail product={product!} />
-          <FavouriteFAB
-            theme={theme}
-            isFavourite={product?.isFavourite ?? false}
-            onPress={() => props.onFavouritePress(product!)}
-          />
-        </>
-      )}
-    </Surface>
+    <ScrollView style={[styles.container, props.containerStyle]}>
+      <Surface theme={theme} style={[styles.content]}>
+        {props.isLoading || !props.product ? (
+          <ProgressBar indeterminate={true} />
+        ) : (
+          <ProductDetail containerStyle={{ minHeight: minHeight }} product={product!} />
+        )}
+      </Surface>
+      <FavouriteFAB
+        theme={theme}
+        isFavourite={product?.isFavourite ?? false}
+        onPress={() => props.onFavouritePress(product!)}
+      />
+    </ScrollView>
   );
 };
 

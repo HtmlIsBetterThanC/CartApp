@@ -22,6 +22,7 @@ export const toUiCategory = (networkModel: NetworkCategory): UiCategory => {
 };
 
 export const networkCategories: NetworkCategory[] = [
+  'electronics',
   'jewelery',
   "men's clothing",
   "women's clothing",

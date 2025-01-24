@@ -10,6 +10,7 @@ interface FilterButtonsProps {
   theme: MD3Theme;
   selectedCategory: UiCategory | undefined;
   isRatingAscending: boolean | undefined;
+  isClearAvailable: boolean;
   onCategoryPress: () => void;
   onRatingPress: () => void;
   onClear: () => void;
@@ -50,12 +51,14 @@ const FilterButtons = (props: FilterButtonsProps) => {
         icon={ratingIcon}>
         {i18n.t('filter.rating')}
       </Button>
-      <IconButton
-        style={[{ backgroundColor: props.theme.colors.errorContainer }]}
-        iconColor={props.theme.colors.onErrorContainer}
-        icon={clearIcon}
-        onPress={props.onClear}
-      />
+      {props.isClearAvailable && (
+        <IconButton
+          style={[{ backgroundColor: props.theme.colors.errorContainer }]}
+          iconColor={props.theme.colors.onErrorContainer}
+          icon={clearIcon}
+          onPress={props.onClear}
+        />
+      )}
     </View>
   );
 };

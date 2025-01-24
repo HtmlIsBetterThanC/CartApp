@@ -12,7 +12,7 @@ interface NetworkProduct {
   readonly rating: NetworkRating;
 }
 
-export const toUiProduct = (networkModel: NetworkProduct): UiProduct => {
+export const toUiProduct = (networkModel: NetworkProduct, isFavourite: boolean): UiProduct => {
   return {
     id: networkModel.id,
     title: networkModel.title,
@@ -21,6 +21,7 @@ export const toUiProduct = (networkModel: NetworkProduct): UiProduct => {
     category: toUiCategory(networkModel.category),
     imagePath: networkModel.image,
     rating: toUiRating(networkModel.rating),
+    isFavourite: isFavourite,
   };
 };
 

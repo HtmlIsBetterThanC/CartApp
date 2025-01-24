@@ -50,12 +50,9 @@ function RouteHome({ navigation }: HomeProps) {
       .getAllProducts()
       .then((networkProducts: NetworkProduct[]) => {
         const preferredProducts = preferenceManager.getFavourites();
-        const uiProducts = networkProducts.map((product) => {
-          return {
-            ...toUiProduct(product),
-            isFavourite: preferredProducts.includes(product.id),
-          };
-        });
+        const uiProducts = networkProducts.map((product) =>
+          toUiProduct(product, preferredProducts.includes(product.id)),
+        );
         setProducts(uiProducts);
         setFilteredProducts(uiProducts);
       })
@@ -123,6 +120,7 @@ function RouteHome({ navigation }: HomeProps) {
     <Products
       isLoading={isLoading}
       products={filteredProducts}
+      isReadOnly={false}
       onProductPress={onProductPress}
       onFavouritePress={onFavouritePress}
       onCategoryPress={onCategoryPress}
@@ -143,10 +141,9 @@ function RouteProduct({ route }: ProductProps) {
     setIsLoading(true);
     networkManager
       .getProductById(id)
-      .then((networkProduct: NetworkProduct) => {
-        const isFavourite = preferenceManager.isFavourite(networkProduct.id);
-        setProduct({ ...toUiProduct(networkProduct), isFavourite });
-      })
+      .then((networkProduct: NetworkProduct) =>
+        setProduct(toUiProduct(networkProduct, preferenceManager.isFavourite(networkProduct.id))),
+      )
       .finally(() => setIsLoading(false));
   }, [id, networkManager, preferenceManager]);
 

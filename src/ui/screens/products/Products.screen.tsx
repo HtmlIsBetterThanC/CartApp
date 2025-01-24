@@ -20,7 +20,17 @@ interface ProductProps {
   containerStyle?: StyleProp<ViewStyle>;
 }
 
-const Products = (props: ProductProps) => {
+const Products = ({
+  isLoading,
+  products,
+  isReadOnly,
+  onProductPress,
+  onFavouritePress,
+  onCategoryPress,
+  onRatingPress,
+  onFilterClear,
+  containerStyle,
+}: ProductProps) => {
   const theme = useTheme();
   const [selectedCategory, setSelectedCategory] = useState<UiCategory>();
   const [isRatingAscending, setRatingAscending] = useState<boolean>();
@@ -30,56 +40,56 @@ const Products = (props: ProductProps) => {
     return selectedCategory !== undefined || isRatingAscending !== undefined;
   }, [isRatingAscending, selectedCategory]);
 
-  const onRatingPress = useCallback(() => {
+  const onRatingPressCallback = useCallback(() => {
     setRatingAscending((prev) => !prev);
-    props.onRatingPress?.();
-  }, [props.onRatingPress]);
+    onRatingPress?.();
+  }, [onRatingPress]);
 
   const showDialog = useCallback(() => setDialogVisible(true), []);
   const onDismiss = useCallback(() => setDialogVisible(false), []);
 
-  const onCategoryPress = useCallback(
+  const onCategoryPressCallback = useCallback(
     (category: UiCategory) => {
-      category && props.onCategoryPress?.(category);
+      category && onCategoryPress?.(category);
       setSelectedCategory(category);
       onDismiss();
     },
-    [onDismiss, props.onCategoryPress],
+    [onDismiss, onCategoryPress],
   );
 
-  const onFilterClear = useCallback(() => {
+  const onFilterClearCallback = useCallback(() => {
     setRatingAscending(undefined);
     setSelectedCategory(undefined);
-    props.onFilterClear?.();
-  }, [props.onFilterClear]);
+    onFilterClear?.();
+  }, [onFilterClear]);
 
   return (
-    <Surface style={[styles.container, props.containerStyle]}>
-      {!props.isReadOnly && (
+    <Surface style={[styles.container, containerStyle]}>
+      {!isReadOnly && (
         <FilterButtons
           theme={theme}
           selectedCategory={selectedCategory}
           isRatingAscending={isRatingAscending}
           isClearAvailable={isClearAvailable}
           onCategoryPress={showDialog}
-          onRatingPress={onRatingPress}
-          onClear={onFilterClear}
+          onRatingPress={onRatingPressCallback}
+          onClear={onFilterClearCallback}
         />
       )}
       <ProductList
         theme={theme}
-        isLoading={props.isLoading}
-        data={props.products}
-        onProductPress={props.onProductPress}
-        onFavouritePress={props.onFavouritePress}
+        isLoading={isLoading}
+        data={products}
+        onProductPress={onProductPress}
+        onFavouritePress={onFavouritePress}
       />
-      {!props.isReadOnly && (
+      {!isReadOnly && (
         <CategoryDialog
           theme={theme}
           categories={uiCategories}
           isDialogVisible={isDialogVisible}
           onDismiss={onDismiss}
-          onCategoryChange={onCategoryPress}
+          onCategoryChange={onCategoryPressCallback}
         />
       )}
     </Surface>

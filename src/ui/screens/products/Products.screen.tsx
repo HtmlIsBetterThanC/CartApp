@@ -3,11 +3,10 @@ import { StyleProp, ViewStyle } from 'react-native';
 import { Surface, useTheme } from 'react-native-paper';
 import { styles } from '@/src/ui/screens/products/Products.styles';
 import ProductList from '@/src/ui/components/product/list/ProductList.component';
-import UiCategory from '@/src/model/ui/UiCategory';
+import UiCategory, { uiCategories } from '@/src/model/ui/UiCategory';
 import FilterButtons from '@/src/ui/components/filter/FilterButtons.component';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import CategoryDialog from '@/src/ui/components/categoryDialog/CategoryDialog.component';
-import { networkCategories } from '@/src/model/network/NetworkCategory';
 
 interface ProductProps {
   isLoading: boolean;
@@ -26,6 +25,10 @@ const Products = (props: ProductProps) => {
   const [isRatingAscending, setRatingAscending] = useState<boolean>();
   const [isDialogVisible, setDialogVisible] = useState(false);
 
+  const isClearAvailable = useMemo(() => {
+    return selectedCategory !== undefined || isRatingAscending !== undefined;
+  }, [isRatingAscending, selectedCategory]);
+
   const onRatingPress = useCallback(() => {
     setRatingAscending((prev) => !prev);
     props.onRatingPress();
@@ -36,11 +39,11 @@ const Products = (props: ProductProps) => {
 
   const onCategoryPress = useCallback(
     (category: UiCategory) => {
+      category && props.onCategoryPress(category);
       setSelectedCategory(category);
-      selectedCategory && props.onCategoryPress(selectedCategory);
       onDismiss();
     },
-    [props.onCategoryPress, selectedCategory],
+    [onDismiss, props.onCategoryPress],
   );
 
   const onFilterClear = useCallback(() => {
@@ -55,6 +58,7 @@ const Products = (props: ProductProps) => {
         theme={theme}
         selectedCategory={selectedCategory}
         isRatingAscending={isRatingAscending}
+        isClearAvailable={isClearAvailable}
         onCategoryPress={showDialog}
         onRatingPress={onRatingPress}
         onClear={onFilterClear}
@@ -68,7 +72,7 @@ const Products = (props: ProductProps) => {
       />
       <CategoryDialog
         theme={theme}
-        categories={networkCategories}
+        categories={uiCategories}
         isDialogVisible={isDialogVisible}
         onDismiss={onDismiss}
         onCategoryChange={onCategoryPress}

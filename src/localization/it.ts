@@ -18,4 +18,8 @@ export default {
       empty: 'Nessun prodotto è disponibile',
     },
   },
+  filter: {
+    category: 'Filtra per categoria',
+    rating: 'Ordina per voto recensione',
+  },
 };

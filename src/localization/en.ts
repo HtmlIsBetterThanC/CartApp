@@ -18,4 +18,8 @@ export default {
       empty: 'No Products are available',
     },
   },
+  filter: {
+    category: 'Filter by category',
+    rating: 'Order by rating',
+  },
 };

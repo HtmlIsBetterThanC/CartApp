@@ -16,7 +16,12 @@ interface CategoryDialogProps {
 
 const CategoryDialog = (props: CategoryDialogProps) => {
   const themeColors = props.theme.colors;
-  const [checkedCategory, setCheckedCategory] = useState<UiCategory>();
+  const [checkedCategory, setCheckedCategory] = useState(props.categories[0]);
+
+  const onCategoryChange = (category: UiCategory) => {
+    setCheckedCategory(category);
+    props.onDonePress(category);
+  };
 
   return (
     <Portal theme={props.theme}>
@@ -25,16 +30,16 @@ const CategoryDialog = (props: CategoryDialogProps) => {
           {i18n.t('dialog.title')}
         </Dialog.Title>
         <Dialog.Content style={[styles.content]}>
-          {props.categories.map((category: UiCategory) => (
-            <RadioButton
-              theme={props.theme}
-              key={category}
-              // TODO doesn't display the value
-              value={category}
-              status={checkedCategory === category ? 'checked' : 'unchecked'}
-              onPress={() => setCheckedCategory(category)}
-            />
-          ))}
+          <RadioButton.Group onValueChange={onCategoryChange} value={checkedCategory}>
+            {props.categories.map((category: UiCategory) => (
+              <RadioButton.Item
+                theme={props.theme}
+                label={category}
+                value={category}
+                position="trailing"
+              />
+            ))}
+          </RadioButton.Group>
         </Dialog.Content>
         <Dialog.Actions>
           <View style={[styles.actionButtons]}>

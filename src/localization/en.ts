@@ -1,7 +1,6 @@
 export default {
   general: {
     cancel: 'Cancel',
-    confirm: 'Confirm',
   },
   category: {
     electronics: 'electronics',

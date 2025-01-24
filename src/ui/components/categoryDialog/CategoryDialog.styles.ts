@@ -12,9 +12,10 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-  actionButtons: {
-    flex: 0.5,
+  actionButton: {
+    flex: 1,
+    paddingHorizontal: 10,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
   },
 });

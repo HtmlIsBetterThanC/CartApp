@@ -2,7 +2,7 @@ import { MD3Theme } from 'react-native-paper/lib/typescript/types';
 import UiCategory from '@/src/model/ui/UiCategory';
 import { Button, Dialog, Portal, RadioButton } from 'react-native-paper';
 import { styles } from '@/src/ui/components/categoryDialog/CategoryDialog.styles';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import i18n from '@/src/localization/i18n';
 
@@ -11,7 +11,7 @@ interface CategoryDialogProps {
   categories: UiCategory[];
   isDialogVisible: boolean;
   onDismiss: () => void;
-  onDonePress: (category: UiCategory) => void;
+  onCategoryChange: (category: UiCategory) => void;
 }
 
 const CategoryDialog = (props: CategoryDialogProps) => {
@@ -20,8 +20,21 @@ const CategoryDialog = (props: CategoryDialogProps) => {
 
   const onCategoryChange = (category: UiCategory) => {
     setCheckedCategory(category);
-    props.onDonePress(category);
+    props.onCategoryChange(category);
   };
+
+  const radioButtonItem = useCallback(
+    (category: UiCategory) => (
+      <RadioButton.Item
+        key={category}
+        theme={props.theme}
+        label={category}
+        value={category}
+        position="trailing"
+      />
+    ),
+    [props.theme],
+  );
 
   return (
     <Portal theme={props.theme}>
@@ -31,29 +44,16 @@ const CategoryDialog = (props: CategoryDialogProps) => {
         </Dialog.Title>
         <Dialog.Content style={[styles.content]}>
           <RadioButton.Group onValueChange={onCategoryChange} value={checkedCategory}>
-            {props.categories.map((category: UiCategory) => (
-              <RadioButton.Item
-                theme={props.theme}
-                label={category}
-                value={category}
-                position="trailing"
-              />
-            ))}
+            {props.categories.map((category: UiCategory) => radioButtonItem(category))}
           </RadioButton.Group>
         </Dialog.Content>
         <Dialog.Actions>
-          <View style={[styles.actionButtons]}>
+          <View style={[styles.actionButton]}>
             <Button
               style={{ backgroundColor: themeColors.errorContainer }}
               labelStyle={{ color: themeColors.onErrorContainer }}
               onPress={props.onDismiss}>
               {i18n.t('general.cancel')}
-            </Button>
-            <Button
-              style={{ backgroundColor: themeColors.primaryContainer }}
-              labelStyle={{ color: themeColors.onPrimaryContainer }}
-              onPress={() => checkedCategory && props.onDonePress(checkedCategory)}>
-              {i18n.t('general.confirm')}
             </Button>
           </View>
         </Dialog.Actions>

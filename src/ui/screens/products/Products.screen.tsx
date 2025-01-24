@@ -11,11 +11,12 @@ import CategoryDialog from '@/src/ui/components/categoryDialog/CategoryDialog.co
 interface ProductProps {
   isLoading: boolean;
   products: UiProduct[];
+  isReadOnly: boolean;
   onProductPress: (id: number) => void;
   onFavouritePress: (product: UiProduct) => void;
-  onCategoryPress: (category: UiCategory) => void;
-  onRatingPress: () => void;
-  onFilterClear: () => void;
+  onCategoryPress?: (category: UiCategory) => void;
+  onRatingPress?: () => void;
+  onFilterClear?: () => void;
   containerStyle?: StyleProp<ViewStyle>;
 }
 
@@ -31,7 +32,7 @@ const Products = (props: ProductProps) => {
 
   const onRatingPress = useCallback(() => {
     setRatingAscending((prev) => !prev);
-    props.onRatingPress();
+    props.onRatingPress?.();
   }, [props.onRatingPress]);
 
   const showDialog = useCallback(() => setDialogVisible(true), []);
@@ -39,7 +40,7 @@ const Products = (props: ProductProps) => {
 
   const onCategoryPress = useCallback(
     (category: UiCategory) => {
-      category && props.onCategoryPress(category);
+      category && props.onCategoryPress?.(category);
       setSelectedCategory(category);
       onDismiss();
     },
@@ -49,20 +50,22 @@ const Products = (props: ProductProps) => {
   const onFilterClear = useCallback(() => {
     setRatingAscending(undefined);
     setSelectedCategory(undefined);
-    props.onFilterClear();
+    props.onFilterClear?.();
   }, [props.onFilterClear]);
 
   return (
     <Surface style={[styles.container, props.containerStyle]}>
-      <FilterButtons
-        theme={theme}
-        selectedCategory={selectedCategory}
-        isRatingAscending={isRatingAscending}
-        isClearAvailable={isClearAvailable}
-        onCategoryPress={showDialog}
-        onRatingPress={onRatingPress}
-        onClear={onFilterClear}
-      />
+      {!props.isReadOnly && (
+        <FilterButtons
+          theme={theme}
+          selectedCategory={selectedCategory}
+          isRatingAscending={isRatingAscending}
+          isClearAvailable={isClearAvailable}
+          onCategoryPress={showDialog}
+          onRatingPress={onRatingPress}
+          onClear={onFilterClear}
+        />
+      )}
       <ProductList
         theme={theme}
         isLoading={props.isLoading}
@@ -70,13 +73,15 @@ const Products = (props: ProductProps) => {
         onProductPress={props.onProductPress}
         onFavouritePress={props.onFavouritePress}
       />
-      <CategoryDialog
-        theme={theme}
-        categories={uiCategories}
-        isDialogVisible={isDialogVisible}
-        onDismiss={onDismiss}
-        onCategoryChange={onCategoryPress}
-      />
+      {!props.isReadOnly && (
+        <CategoryDialog
+          theme={theme}
+          categories={uiCategories}
+          isDialogVisible={isDialogVisible}
+          onDismiss={onDismiss}
+          onCategoryChange={onCategoryPress}
+        />
+      )}
     </Surface>
   );
 };

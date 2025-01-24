@@ -5,7 +5,6 @@ import {
   useFocusEffect,
 } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
-import { View } from 'react-native';
 import Products from '@/src/ui/screens/products/Products.screen';
 import { useCallback, useEffect, useState } from 'react';
 import UiProduct from '@/src/model/ui/UiProduct';
@@ -164,7 +163,62 @@ function RouteProduct({ route }: ProductProps) {
 }
 
 function RouteFavourite({ navigation }: FavouriteProps) {
-  return <View></View>;
+  const [isLoading, setIsLoading] = useState(false);
+  const [products, setProducts] = useState<UiProduct[]>([]);
+  const [favouritesProducts, setFavouritesProducts] = useState<UiProduct[]>([]);
+  const networkManager = useNetworkManager();
+  const preferenceManager = usePreferencesManager();
+
+  useEffect(() => {
+    setIsLoading(true);
+    networkManager
+      .getAllProducts()
+      .then((networkProducts: NetworkProduct[]) => {
+        const preferredProducts = preferenceManager.getFavourites();
+        const uiProducts = networkProducts.map((product) =>
+          toUiProduct(product, preferredProducts.includes(product.id)),
+        );
+        setProducts(uiProducts);
+        setFavouritesProducts(uiProducts.filter((product) => product.isFavourite));
+      })
+      .finally(() => setIsLoading(false));
+  }, [networkManager, preferenceManager]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const preferredProducts = preferenceManager.getFavourites();
+      setFavouritesProducts(() =>
+        products
+          .filter((product) => preferredProducts.includes(product.id))
+          .map((product) => {
+            return { ...product, isFavourite: true };
+          }),
+      );
+    }, [preferenceManager, products]),
+  );
+
+  const onProductPress = (id: number) => {
+    navigation.navigate(Routes.product, { id });
+  };
+  const onFavouritePress = useCallback(
+    (product: UiProduct) => {
+      preferenceManager.toggleFavourites(product.id);
+      setFavouritesProducts((prev) => {
+        return prev.filter((element) => element.id !== product.id);
+      });
+    },
+    [preferenceManager],
+  );
+
+  return (
+    <Products
+      isLoading={isLoading}
+      products={favouritesProducts}
+      isReadOnly={true}
+      onProductPress={onProductPress}
+      onFavouritePress={onFavouritePress}
+    />
+  );
 }
 
 const Index = () => {

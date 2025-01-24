@@ -276,6 +276,7 @@ const Index = () => {
             backgroundColor: paperTheme.colors.primaryContainer,
           },
           headerTintColor: paperTheme.colors.onPrimaryContainer,
+          statusBarBackgroundColor: paperTheme.colors.primaryContainer,
         }}>
         <Stack.Screen
           name={Routes.products}

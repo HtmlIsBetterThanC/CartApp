@@ -11,6 +11,10 @@ export const styles = StyleSheet.create({
     gap: 16,
   },
 
+  image: {
+    alignItems: 'center',
+  },
+
   ratingCount: {
     fontSize: 24,
   },

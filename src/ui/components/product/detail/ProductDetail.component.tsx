@@ -1,6 +1,6 @@
 import { StyleProp, View, ViewStyle } from 'react-native';
 import UiProduct from '@/src/model/ui/UiProduct';
-import { ProgressBar, Surface, Text } from 'react-native-paper';
+import { Icon, ProgressBar, Surface, Text } from 'react-native-paper';
 import { styles } from './ProductDetail.styles';
 import RatingStarsComponent from '@/src/ui/components/rating/RatingStars.component';
 import i18n from '@/src/localization/i18n';
@@ -26,6 +26,9 @@ const ProductDetailComponent = (props: ProductProps) => {
           <Text variant={'headlineMedium'}>
             {i18n.t('product.detail.category', { category: product?.category ?? '' })}
           </Text>
+          <View style={[styles.image]}>
+            <Icon source={{ uri: product?.imagePath }} size={200} />
+          </View>
           <Text variant={'titleLarge'}>
             {' '}
             {i18n.t('product.detail.id', { id: product?.id ?? '' })}

@@ -6,6 +6,8 @@ import ProductList from '@/src/ui/components/product/list/ProductList.component'
 import UiCategory from '@/src/model/ui/UiCategory';
 import FilterButtons from '@/src/ui/components/filter/FilterButtons.component';
 import { useCallback, useState } from 'react';
+import CategoryDialog from '@/src/ui/components/categoryDialog/CategoryDialog.component';
+import { networkCategories } from '@/src/model/network/NetworkCategory';
 
 interface ProductProps {
   isLoading: boolean;
@@ -21,15 +23,24 @@ const Products = (props: ProductProps) => {
   const theme = useTheme();
   const [selectedCategory, setSelectedCategory] = useState<UiCategory>();
   const [isRatingAscending, setRatingAscending] = useState(true);
-
-  const onCategoryPress = () => {
-    selectedCategory && props.onCategoryPress(selectedCategory);
-  };
+  const [isDialogVisible, setDialogVisible] = useState(false);
 
   const onRatingPress = useCallback(() => {
     setRatingAscending((prev) => !prev);
     props.onRatingPress();
-  }, [props]);
+  }, [props.onRatingPress]);
+
+  const showDialog = useCallback(() => setDialogVisible(true), []);
+  const onDismiss = useCallback(() => setDialogVisible(false), []);
+
+  const onCategoryPress = useCallback(
+    (category: UiCategory) => {
+      setSelectedCategory(category);
+      selectedCategory && props.onCategoryPress(selectedCategory);
+      onDismiss();
+    },
+    [props.onCategoryPress, selectedCategory],
+  );
 
   return (
     <Surface style={[styles.container, props.containerStyle]}>
@@ -37,7 +48,7 @@ const Products = (props: ProductProps) => {
         theme={theme}
         selectedCategory={selectedCategory}
         isRatingAscending={isRatingAscending}
-        onCategoryPress={onCategoryPress}
+        onCategoryPress={showDialog}
         onRatingPress={onRatingPress}
       />
       <ProductList
@@ -46,6 +57,13 @@ const Products = (props: ProductProps) => {
         data={props.products}
         onProductPress={props.onProductPress}
         onFavouritePress={props.onFavouritePress}
+      />
+      <CategoryDialog
+        theme={theme}
+        categories={networkCategories}
+        isDialogVisible={isDialogVisible}
+        onDismiss={onDismiss}
+        onCategoryChange={onCategoryPress}
       />
     </Surface>
   );

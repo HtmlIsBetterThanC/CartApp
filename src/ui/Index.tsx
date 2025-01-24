@@ -15,6 +15,7 @@ import Product from '@/src/ui/screens/product/Product.screen';
 import usePreferencesManager from '@/src/hooks/usePreferencesManager';
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import i18n from '@/src/localization/i18n';
 
 enum Routes {
   products = 'Products',
@@ -235,10 +236,10 @@ const Index = () => {
     const routeName = getFocusedRouteNameFromRoute(route) ?? Routes.products;
 
     switch (routeName) {
-      case Routes.products:
-        return Routes.products;
       case Routes.favourite:
-        return Routes.favourite;
+        return i18n.t('navigation.favourites');
+      default:
+        return i18n.t('navigation.products');
     }
   }, []);
 
@@ -248,6 +249,7 @@ const Index = () => {
         <Tab.Screen
           name={Routes.home}
           options={{
+            tabBarLabel: i18n.t('navigation.home'),
             tabBarIcon: ({ color }: { color: string }) => tabIcon('home', color),
           }}
           component={RouteHome}
@@ -255,6 +257,7 @@ const Index = () => {
         <Tab.Screen
           name={Routes.favourite}
           options={{
+            tabBarLabel: i18n.t('navigation.favourites'),
             tabBarIcon: ({ color }: { color: string }) => tabIcon('heart', color),
           }}
           component={RouteFavourite}
@@ -273,7 +276,11 @@ const Index = () => {
           })}
           component={TabsNavigator}
         />
-        <Stack.Screen name={Routes.product} component={RouteProduct} />
+        <Stack.Screen
+          name={Routes.product}
+          options={{ headerTitle: i18n.t('navigation.product') }}
+          component={RouteProduct}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

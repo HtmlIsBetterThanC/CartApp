@@ -21,10 +21,16 @@ export default {
     },
   },
   filter: {
-    category: 'Filtra per categoria',
-    rating: 'Ordina per voto recensione',
+    category: 'Categoria',
+    rating: 'Ordina per recensione',
   },
   dialog: {
     title: 'Seleziona categoria',
+  },
+  navigation: {
+    home: 'Home',
+    product: 'Prodotto',
+    products: 'Prodotti',
+    favourites: 'Preferiti',
   },
 };

@@ -27,4 +27,10 @@ export default {
   dialog: {
     title: 'Select category',
   },
+  navigation: {
+    home: 'Home',
+    product: 'Product',
+    products: 'Products',
+    favourites: 'Favourites',
+  },
 };

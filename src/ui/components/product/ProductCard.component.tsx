@@ -9,7 +9,7 @@ interface ProductCardProps {
   theme: MD3Theme;
   product: UiProduct;
   onProductPress: () => void;
-  onFavoritePress: () => void;
+  onFavouritePress: () => void;
   containerStyle?: StyleProp<ViewStyle>;
 }
 
@@ -24,10 +24,10 @@ const ProductCardComponent = (props: ProductCardProps) => {
         icon={product.isFavourite ? 'heart' : 'heart-outline'}
         iconColor={product.isFavourite ? 'red' : 'grey'}
         size={32}
-        onPress={props.onFavoritePress}
+        onPress={props.onFavouritePress}
       />
     );
-  }, [product.isFavourite, props.onFavoritePress]);
+  }, [product.isFavourite, props.onFavouritePress]);
 
   return (
     <Card

@@ -21,8 +21,8 @@ export default {
     },
   },
   filter: {
-    category: 'Filter by category',
-    rating: 'Order by rating',
+    category: 'Category',
+    rating: 'Rating',
   },
   dialog: {
     title: 'Select category',

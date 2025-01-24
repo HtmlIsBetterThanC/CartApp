@@ -22,7 +22,7 @@ export default {
   },
   filter: {
     category: 'Categoria',
-    rating: 'Ordina per recensione',
+    rating: 'Recensione',
   },
   dialog: {
     title: 'Seleziona categoria',

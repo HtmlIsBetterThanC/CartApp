@@ -10,6 +10,7 @@ interface UiProduct {
   readonly category: uiCategory;
   readonly imagePath: string;
   readonly rating: UiRating;
+  readonly isFavourite?: boolean;
 }
 
 export const toNetworkProduct = (uiModel: UiProduct): NetworkProduct => {

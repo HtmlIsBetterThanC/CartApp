@@ -1,6 +1,6 @@
 import UiProduct from '@/src/model/ui/UiProduct';
-import { StyleProp, ViewStyle } from 'react-native';
-import { Surface, useTheme } from 'react-native-paper';
+import { StyleProp, View, ViewStyle } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import { styles } from '@/src/ui/screens/products/Products.styles';
 import ProductList from '@/src/ui/components/product/list/ProductList.component';
 import UiCategory, { uiCategories } from '@/src/model/ui/UiCategory';
@@ -64,7 +64,7 @@ const Products = ({
   }, [onFilterClear]);
 
   return (
-    <Surface style={[styles.container, containerStyle]}>
+    <View style={[styles.container, containerStyle]}>
       {!isReadOnly && (
         <FilterButtons
           theme={theme}
@@ -92,7 +92,7 @@ const Products = ({
           onCategoryChange={onCategoryPressCallback}
         />
       )}
-    </Surface>
+    </View>
   );
 };
 

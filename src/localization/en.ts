@@ -14,5 +14,8 @@ export default {
       description: 'Description: %{description}',
       price: 'Price: %{price}',
     },
+    list: {
+      empty: 'No Products are available',
+    },
   },
 };

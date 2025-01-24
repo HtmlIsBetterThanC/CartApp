@@ -1,4 +1,9 @@
-import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
+import {
+  getFocusedRouteNameFromRoute,
+  NavigationContainer,
+  Route,
+  useFocusEffect,
+} from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { View } from 'react-native';
 import Products from '@/src/ui/screens/products/Products.screen';
@@ -9,24 +14,28 @@ import NetworkProduct, { toUiProduct } from '@/src/model/network/NetworkProduct'
 import UiCategory from '@/src/model/ui/UiCategory';
 import Product from '@/src/ui/screens/product/Product.screen';
 import usePreferencesManager from '@/src/hooks/usePreferencesManager';
+import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 enum Routes {
   products = 'Products',
+  home = 'Home',
   product = 'Product',
   favourite = 'Favourite',
 }
 
 type RootStackParamList = {
   Products: undefined;
+  Home: undefined;
   Product: { id: number };
   Favourite: undefined;
 };
 
-type ProductsProps = NativeStackScreenProps<RootStackParamList, Routes.products>;
+type HomeProps = NativeStackScreenProps<RootStackParamList, Routes.home>;
 type ProductProps = NativeStackScreenProps<RootStackParamList, Routes.product>;
 type FavouriteProps = NativeStackScreenProps<RootStackParamList, Routes.favourite>;
 
-function RouteProducts({ navigation }: ProductsProps) {
+function RouteHome({ navigation }: HomeProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState<UiProduct[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<UiProduct[]>([]);
@@ -163,10 +172,56 @@ function RouteFavourite({ navigation }: FavouriteProps) {
 
 const Index = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();
+  const Tab = createMaterialBottomTabNavigator();
+
+  const tabIcon = useCallback((iconName: string, color: string) => {
+    // @ts-ignore
+    // the type of name is not public
+    return <MaterialCommunityIcons name={iconName} color={color} size={26} />;
+  }, []);
+
+  const getHeaderTitle = useCallback((route: Partial<Route<string>>) => {
+    const routeName = getFocusedRouteNameFromRoute(route) ?? Routes.products;
+
+    switch (routeName) {
+      case Routes.products:
+        return Routes.products;
+      case Routes.favourite:
+        return Routes.favourite;
+    }
+  }, []);
+
+  const TabsNavigator = () => {
+    return (
+      <Tab.Navigator>
+        <Tab.Screen
+          name={Routes.home}
+          options={{
+            tabBarIcon: ({ color }: { color: string }) => tabIcon('home', color),
+          }}
+          component={RouteHome}
+        />
+        <Tab.Screen
+          name={Routes.favourite}
+          options={{
+            tabBarIcon: ({ color }: { color: string }) => tabIcon('heart', color),
+          }}
+          component={RouteFavourite}
+        />
+      </Tab.Navigator>
+    );
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name={Routes.products} component={RouteProducts} />
+        <Stack.Screen
+          name={Routes.products}
+          options={({ route }) => ({
+            headerTitle: getHeaderTitle(route),
+          })}
+          component={TabsNavigator}
+        />
         <Stack.Screen name={Routes.product} component={RouteProduct} />
       </Stack.Navigator>
     </NavigationContainer>
